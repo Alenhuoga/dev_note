@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <!--1.导入vue.js    -->
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.js"></script>
+</head>
+<body>
+
+<!-- view层变成了模板   -->
+<div id="app" class="aaa">
+  <todo v-bind:items="items" v-on:hi="Hi()">
+
+<!--    具名插槽 插到具体的插槽位置上-->
+    <todo-h1 slot="todo-h1"></todo-h1>
+
+<!--    匿名插槽，一整块都会插到没有制定插槽名字的插槽上-->
+    <todo-p1></todo-p1>
+    <todo-p1></todo-p1>
+  </todo>
+</div>
+</body>
+</html>
+
+<script>
+
+<!--  插槽是用来占位的，没有特别指明，他会将组件插入到插槽处-->
+  Vue.component('todo',{
+    props: ['items','index'],
+    template:`
+      <div id="todo">
+            <button @click="Hi()">sayHi!</button>
+            <slot name="todo-h1"></slot>
+            <p>这是插槽板</p>
+            <p v-for="(item,index) in items">{{item}}<button>{{index}}删除</button></p>
+            <slot name="todo-p1"></slot>
+      </div>
+    `,
+    methods: {
+      Hi:function (){
+        this.$emit("hi")
+      }
+    }
+
+  })
+
+  Vue.component('todo-h1',{
+    template: `
+      <h1>插槽头部</h1>
+    `
+  })
+
+  Vue.component('todo-p1',{
+    template: `
+      <p>插槽段落</p>
+    `
+  })
+
+  var vm = new Vue({
+    el:'.aaa',
+    data:{
+      message:"hello,vue!",
+      items:["alenhuoga","天啦绿","马耀飞"],
+      todo_list:["1","2","3","4"]
+    },
+    methods:{
+      removeItems:function (index){
+        this.todo_list.splice((index,1))//index表示删除的元素起始位置，1表示从当期位置删除多少个元素。
+        console.log(this.todo_list[index])
+
+      },
+      Hi:function (){
+        alert("hello!!")
+      }
+
+    }
+  })
+</script>

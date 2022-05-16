@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--1.导入vue.js    -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.js"></script>
+</head>
+<body>
+
+<!-- view层变成了模板   -->
+<div id="app" class="aaa">
+    <h1> Alenhuoga的Vue</h1>
+    {{message}}
+
+    <!--        这是vue的判断语句-->
+    <p v-if="ok===true"> 判斷為true</p>
+    <p v-else-if="ok===false"> 判斷為false</p>
+    <p v-else> 啥都不是</p>
+
+
+    <!--        这是循环语句-->
+    <p v-for="item in items">
+        {{item.message}} {{item.age}}
+    </p>
+    <!--        函数绑定 执行局部函数-->
+    <button v-on:click="sayHi">执行vue局部函数，全局无法执行该函数</button>
+    <!--        双向绑定-->
+    <input v-model="message">
+    <!--        选择框-->
+    <input type="checkbox" id="jack" value="Jack" v-model="checkedNames"> <label for="jack">Jack</label>
+    <input type="checkbox" id="john" value="John" v-model="checkedNames"> <label for="john">John</label>
+    <input type="checkbox" id="mike" value="Mike" v-model="checkedNames"> <label for="mike">Mike</label>
+    <span>选中的值: {{ checkedNames }}</span>
+
+    下拉框：
+    <select v-model="selected">
+    <option disabled value="">请选择</option>
+    <option>A</option>
+    <option>B</option>
+    <option>C</option>
+    </select>
+    <span>选中的值: {{ selected }}</span>
+
+
+    <!--    属性绑定 属性获取局部值-->
+    <span v-bind:title="message"></span>
+</div>
+</body>
+</html>
+
+<script>
+    var vm = new Vue({
+        el: '.aaa',
+        data: {
+            message: "hello,vue!",
+            ok: true,
+            items: [
+                {message: "马耀飞", age: 23},
+                {message: "Alenhuoga", age: 18}
+            ],
+            checkedNames: [],
+            selected:"",
+        },
+        methods: {//vue中要去执行函数，比如ajax啥啥啥的，要写在method里面,v-on事件
+            sayHi: function () {
+                console.log(1231)
+                alert(this.message)
+            }
+        },
+    })
+</script>
